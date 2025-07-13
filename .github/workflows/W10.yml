@@ -2,24 +2,6 @@ name: windows 10 (2022)
 
 on:
   workflow_dispatch:
-
-jobs:
-  build:
-    name: Start Building...
-    runs-on: windows-2022
-    steps:
-      - name: Downloading & Installing Essentials
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/88avlg4iop53zp9i5sydm/Downloads.bat?rlkey=yvn2v08sxepcgfb47cpcsscpl&st=pcxql30h&dl=1" -OutFile "Downloads.bat"
-          cmd /c Downloads.bat
-
-      - name: Log In To AnyDesk
-        run: cmd /c show.bat
-
-      - name: 6 house 1-bqwe
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
-          python Dow.py
           
 jobs:
   build:
