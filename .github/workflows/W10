@@ -1,0 +1,114 @@
+name: windows 10 (2022)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Start Building...
+    runs-on: windows-2025
+    steps:
+      - name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/eum2aqpvkq9zamaqv4ij8/Downloads.bat?rlkey=fsy5q4hz8ju4ye5ow7efr4v1g&st=y4ap7l3g&dl=1" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Log In To AnyDesk
+        run: cmd /c show.bat
+
+      - name: 6 house 1-bqwe
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
+          python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 2-poiie
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 3-poish
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 4-pdpl3
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 5-poN4h
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 6-siebw
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 7-wndue
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 8-mejjd
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 9-lllajr
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 10-so3bhsh
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 11-so3bhcf
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 6 house 12-so3fdsh
+        run: python Dow.py
+        continue-on-error: true
+
+      - name: 200 house
+        run: |
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+          python Dow.py
+        continue-on-error: true
+
+      - name: Time Counter
+        run: python time.py
