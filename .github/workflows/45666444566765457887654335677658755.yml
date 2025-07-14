@@ -1,11 +1,11 @@
-name: windows
+name: For me test
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Start Building...
+    name: Building...
     runs-on: windows-latest
     steps:
       - name: Установка питона и т.д.
