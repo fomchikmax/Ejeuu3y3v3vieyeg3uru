@@ -1,114 +1,34 @@
-name: windows 10 (2022)
+name: For me test
 
 on:
   workflow_dispatch:
-          
+
 jobs:
   build:
     name: Building...
-    runs-on: windows-2025
+    runs-on: windows-latest
     steps:
-      - name: Downloading & Installing Essentials
+      - name: Установка питона и т.д.
         run: |
           Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/88avlg4iop53zp9i5sydm/Downloads.bat?rlkey=yvn2v08sxepcgfb47cpcsscpl&st=pcxql30h&dl=1" -OutFile "Downloads.bat"
           cmd /c Downloads.bat
 
-      - name: Log In To AnyDesk
+      - name: Установка зависимостей
+        run: pip install requests
+
+      - name: Создание главной папки
+        run: mkdir C:\fomchik
+
+      - name: Скачивание програмы
+        run: powershell -Command "Invoke-WebRequest -Uri 'https://www.dropbox.com/scl/fi/6as2jqqwoqvy98o6296u0/finals.py?rlkey=tum8hkcnk755dbft1t9vpz0at&st=rec1lbqi&dl=1' -OutFile 'C:\fomchik\prog.py'"
+
+      - name: IP
+        run: |
+          netstat -an | find "LISTEN"
+          ipconfig
+
+      - name: Включение экрана
         run: cmd /c show.bat
 
-      - name: 6 house 1-bqwe
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
-          python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 2-poiie
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 3-poish
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 4-pdpl3
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 5-poN4h
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 6-siebw
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 7-wndue
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 8-mejjd
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 9-lllajr
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 10-so3bhsh
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 11-so3bhcf
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 6 house 12-so3fdsh
-        run: python Dow.py
-        continue-on-error: true
-
-      - name: 200 house
-        run: |
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-          python Dow.py
-        continue-on-error: true
-
-      - name: Time Counter
+      - name: yyg
         run: python time.py
