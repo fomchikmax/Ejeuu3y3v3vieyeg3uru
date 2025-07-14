@@ -1,0 +1,40 @@
+name: windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Start Building...
+    runs-on: windows-latest
+    steps:
+      - name: Установка питона и т.д.
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/88avlg4iop53zp9i5sydm/Downloads.bat?rlkey=yvn2v08sxepcgfb47cpcsscpl&st=pcxql30h&dl=1" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Установка зависимостей
+        run: pip install requests
+
+      - name: Создание главной папки
+        run: mkdir C:\fomchik
+
+      - name: Скачивание програмы
+        run: powershell -Command "Invoke-WebRequest -Uri 'https://www.dropbox.com/scl/fi/c7rvbs5wgp1qq12ygx9wu/proganshgftuxyfpap.py?rlkey=kh7fuju7997om3boboz26cir4&st=nv929iht&dl=1' -OutFile 'C:\fomchik\prog.py'"
+
+      - name: IP
+        run: |
+          netstat -an | find "LISTEN"
+          ipconfig
+
+      - name: Включение экрана
+        run: cmd /c show.bat
+
+      - name: yyg
+        run: python time.py
+
+      - name: Скачивание джава 21
+        run: powershell -Command "Invoke-WebRequest -Uri 'https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_x64_windows_hotspot_21.0.7_6.msi' -OutFile 'C:\fomchik\java.exe'"
+
+      - name: Включение
+        run: java -Xms512M -Xmx12G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:ActiveProcessorCount=3 -jar C:\fomchik\arch\server.jar nogui
