@@ -1,4 +1,4 @@
-name: Build APK and Upload to FTP
+name: Builds APK
 
 on:
   workflow_dispatch:
