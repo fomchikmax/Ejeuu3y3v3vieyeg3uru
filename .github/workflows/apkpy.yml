@@ -19,6 +19,7 @@ on:
 
 jobs:
   build:
+    name: Build py to apk and upload to FTP
     runs-on: ubuntu-latest
 
     steps:
