@@ -1,4 +1,4 @@
-name: Builds APK
+name: Build APK
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    name: Build py to apk and upload to FTP
+    name: Build and upload APK
     runs-on: ubuntu-latest
 
     steps:
@@ -28,26 +28,28 @@ jobs:
         sudo apt update
         sudo apt install -y git zip unzip openjdk-17-jdk python3-pip libffi-dev libssl-dev pkg-config
         pip install --upgrade pip
-        pip install cython virtualenv
-        pip install buildozer
+        pip install cython virtualenv buildozer
 
-    - name: Клонирование проекта
+    - name: Подготовка проекта
       run: |
-        mkdir project && cd project
-        echo "user=${{ github.event.inputs.ftp_user }}" > .netrc
-        echo "password=${{ github.event.inputs.ftp_pass }}" >> .netrc
-        curl -T .netrc ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/.netrc
-        curl -O ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/main.py
-        curl -O ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/buildozer.spec
-        mv main.py buildozer.spec project/
+        mkdir -p project
         cd project
+        echo "machine ${{ github.event.inputs.ftp_host }}" > .netrc
+        echo "login ${{ github.event.inputs.ftp_user }}" >> .netrc
+        echo "password ${{ github.event.inputs.ftp_pass }}" >> .netrc
+        chmod 600 .netrc
+        curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/main.py" -o main.py
+        curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/buildozer.spec" -o buildozer.spec
 
-    - name: Сборка .apk
+    - name: Сборка APK
       working-directory: ./project
       run: |
         buildozer android debug
 
-    - name: Отправка apk на FTP
-      working-directory: ./project
+    - name: Отправка APK на FTP
+      working-directory: ./project/bin
       run: |
-        curl -T bin/*.apk ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/ --user ${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}
+        find . -name '*.apk' -exec curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          --ftp-create-dirs -T {} "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/{}" \;
