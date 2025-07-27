@@ -1,39 +1,55 @@
-name: For me test
+name: Build APK
 
 on:
   workflow_dispatch:
+    inputs:
+      ftp_host:
+        description: 'FTP Host (IP или адрес)'
+        required: true
+      ftp_port:
+        description: 'FTP Port'
+        required: true
+        default: '21'
+      ftp_user:
+        description: 'FTP Username'
+        required: true
+      ftp_pass:
+        description: 'FTP Password'
+        required: true
 
 jobs:
   build:
-    name: Building...
-    runs-on: windows-latest
+    name: Build and upload APK
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Установка питона и т.д.
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/88avlg4iop53zp9i5sydm/Downloads.bat?rlkey=yvn2v08sxepcgfb47cpcsscpl&st=pcxql30h&dl=1" -OutFile "Downloads.bat"
-          cmd /c Downloads.bat
+    - name: Установка зависимостей
+      run: |
+        sudo apt update
+        sudo apt install -y git zip unzip openjdk-17-jdk python3-pip libffi-dev libssl-dev pkg-config
+        pip install --upgrade pip
+        pip install cython virtualenv buildozer
 
-      - name: Download ngrok
-        run: |
-          Invoke-WebRequest -Uri "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip" -OutFile "ngrok.zip"
-          Expand-Archive ngrok.zip -DestinationPath .
+    - name: Подготовка проекта
+      run: |
+        mkdir -p project
+        cd project
+        echo "machine ${{ github.event.inputs.ftp_host }}" > .netrc
+        echo "login ${{ github.event.inputs.ftp_user }}" >> .netrc
+        echo "password ${{ github.event.inputs.ftp_pass }}" >> .netrc
+        chmod 600 .netrc
+        curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/main.py" -o main.py
+        curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/buildozer.spec" -o buildozer.spec
 
-      - name: Установка зависимостей
-        run: pip install requests
+    - name: Сборка APK
+      working-directory: ./project
+      run: |
+        buildozer android debug
 
-      - name: Создание главной папки
-        run: mkdir C:\fomchik
-
-      - name: Скачивание програмы
-        run: |
-          powershell -Command "Invoke-WebRequest -Uri 'https://www.dropbox.com/scl/fi/6as2jqqwoqvy98o6296u0/finals.py?rlkey=tum8hkcnk755dbft1t9vpz0at&st=rec1lbqi&dl=1' -OutFile 'C:\fomchik\prog.py'"
-          powershell -Command "Invoke-WebRequest -Uri 'https://www.dropbox.com/scl/fi/7cxew55g0r9v0m3row9yu/ngrok.bat?rlkey=jemogc01gm54r2616c78m5ees&st=0bypuhd3&dl=1' -OutFile 'C:\fomchik\ngrok.bat'" 
-
-      - name: Включение экрана
-        run: cmd /c show.bat
-
-      - name: 6 house 1-bqwe
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/lclvcywso1brg4q0y9csw/tms.py?rlkey=fod3tesqj5q2jd078qc6ojf6q&st=hql4ulg5&dl=1" -OutFile "Dow.py"
-          python Dow.py
-        
+    - name: Отправка APK на FTP
+      working-directory: ./project/bin
+      run: |
+        find . -name '*.apk' -exec curl -u "${{ github.event.inputs.ftp_user }}:${{ github.event.inputs.ftp_pass }}" \
+          --ftp-create-dirs -T {} "ftp://${{ github.event.inputs.ftp_host }}:${{ github.event.inputs.ftp_port }}/{}" \;
